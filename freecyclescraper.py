@@ -100,7 +100,10 @@ rows = list()
 for row in result:
 	dataElements = list()
 	for dataElement in row:
-		dataElements.append("<td>" + str(dataElement) + "</td>")
+		if str(dataElement).startswith("http"):
+			dataElements.append("<td><a href=\"" + str(dataElement) + "\">" + str(dataElement) + "</a></td>")
+		else:
+			dataElements.append("<td>" + str(dataElement) + "</td>")
 	if dataElements[-1] == "<td>1</td>":	# Bad, code better
 		rows.append("<tr bgcolor=\"#008000\">" + str("".join(dataElements[:-1])) + "</tr>")
 	else:

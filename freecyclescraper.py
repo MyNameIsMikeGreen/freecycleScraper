@@ -54,6 +54,10 @@ cur.execute("CREATE TABLE if not exists posts( \
 				sublocation TEXT NOT NULL, \
 				link TEXT NOT NULL, \
 				new BOOLEAN);")
+				
+# Set all entries already exisiting in table to "not new"
+update_command = "UPDATE posts SET new = '0'"
+cur.execute(update_command)
 		
 for url in urls:
 	page_data = getPageHTML(url + RESULTS_LENGTH_STRING)
@@ -81,12 +85,10 @@ for url in urls:
 				sublocation_unfiltered = data.text_content()
 				post_sublocation = sublocation_unfiltered[sublocation_unfiltered.find("(")+1:sublocation_unfiltered.find(")")].strip()		# Not ideal. Finds lots of data then just filters to match whichever if the first between ( and ).
 			first_td = False
-		if linkExists(post_link):
-			update_command = "UPDATE posts SET new = '0' WHERE link='" + post_link + "'"
-			cur.execute(update_command)
-		else:
+		if not linkExists(post_link):
 			insertion_command = "INSERT INTO posts (timestamp, title, location, sublocation, link, new) VALUES (" + str(post_timestamp).replace("'", "''") + ", '" + post_title.replace("'", "''") + "', '" + post_location.replace("'", "''") + "', '" + post_sublocation.replace("'", "''") + "', '" + post_link + "', " + str(boolToInt(post_new)) + ");"
 			cur.execute(insertion_command)
+			
 		
 # Write table to file
 

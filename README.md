@@ -5,3 +5,7 @@ Outputs to the default HTML handling program as defined by the operating system 
 
 ## Usage
     python freecycleScraper.py [freecycle URL 1] [freecycle URL 2] [...]
+
+For example, for the Cheltenham and Southampton offers pages, I would use the following command:
+
+    python freecycleScraper.py https://groups.freecycle.org/group/CheltenhamUK/posts/offer https://groups.freecycle.org/group/SouthamptonUK/posts/offer
